@@ -4,7 +4,7 @@ pipeline {
   environment {
     IMAGE_NAME = 'dhwanii08/whong4_student-survey-form-flask'
     IMAGE_TAG = "${BUILD_NUMBER}"  // dynamic tag
-    KUBECONFIG_PATH = '/var/lib/jenkins/kubeconfig-flask.yaml'
+    KUBECONFIG_PATH = '/var/lib/jenkins/kubeconfigs/swe645extracreditcluster'
   }
 
   stages {
@@ -36,7 +36,7 @@ pipeline {
     stage('Deploy to Rancher') {
       steps {
         script {
-		  sh 'kubectl set image deployment/swe-645-flask-survey-form container-0=dhwanii08/whong4_student-survey-form-flask:$BUILD_NUMBER -n default'
+		  sh 'kubectl --kubeconfig=$KUBECONFIG_PATH set image deployment/swe-645-flask-survey-form container-0=dhwanii08/whong4_student-survey-form-flask:$BUILD_NUMBER -n default'
         }
       }
     }
