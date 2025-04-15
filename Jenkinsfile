@@ -27,4 +27,18 @@ pipeline {
         script {
           withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
             sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-            sh 'docker
+            sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
+          }
+        }
+      }
+    }
+
+    stage('Deploy to Rancher') {
+      steps {
+        script {
+          sh "kubectl --kubeconfig=$KUBECONFIG_PATH set image deployment/swe-645-flask-survey-form container-0=$IMAGE_NAME:$IMAGE_TAG"
+        }
+      }
+    }
+  }
+}
