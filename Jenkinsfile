@@ -36,7 +36,7 @@ pipeline {
     stage('Deploy to Rancher') {
       steps {
         script {
-		  sh 'kubectl set image deployment/swe-645-flask-survey-form container-0=dhwanii08/whong4_student-survey-form-flask:$BUILD_NUMBER'
+		  sh 'kubectl set image deployment/swe-645-flask-survey-form container-0=dhwanii08/whong4_student-survey-form-flask:$BUILD_NUMBER -n default'
         }
       }
     }
